@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layouts from "./components/Layouts";
 import DashboardSection from "./sections/DashboardSection";
 import NewsSection from "./sections/NewsSection";
@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layouts />}>
           <Route index element={<DashboardSection />} />
@@ -14,7 +14,7 @@ function App() {
         </Route>
       </Routes>
       <Analytics />
-    </Router>
+    </BrowserRouter>
   );
 }
 

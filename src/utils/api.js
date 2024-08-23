@@ -34,7 +34,7 @@ export const fetchTrendingCryptos = async () => {
 };
 
 export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
-  const API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+  const API_KEY = "2c7eaa6b102748399669ec670415f257";
 
   const API = axios.create({
     baseURL: "https://newsapi.org/v2",

@@ -43,17 +43,17 @@ export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
   try {
     const response = await API.get("/everything", {
       params: {
-        q: "cryptocurrency OR crypto OR bitcoin OR ethereum", // Termes de recherche
-        pageSize: pageSize, // Nombre d'articles par page
-        page: page, // Numéro de la page
-        apiKey: API_KEY, // Clé API
-        sortBy: "publishedAt", // Trier par date de publication
+        q: "cryptocurrency OR crypto OR bitcoin OR ethereum",
+        pageSize: pageSize,
+        page: page,
+        apiKey: API_KEY,
+        sortBy: "publishedAt",
       },
     });
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des actualités :", error);
-    return { articles: [] };
+    return { articles: [], error: error.message };
   }
 };
 

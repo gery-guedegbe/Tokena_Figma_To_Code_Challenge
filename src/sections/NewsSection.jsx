@@ -14,6 +14,7 @@ const NewsSections = () => {
     const loadNews = async () => {
       setLoading(true);
       const data = await fetchCryptoNews(page);
+      console.log("Fetched News:", data);
 
       // Filtrer les articles qui ont une image
       const filteredArticles = data.articles.filter(

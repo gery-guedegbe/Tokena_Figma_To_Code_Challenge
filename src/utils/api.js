@@ -23,18 +23,18 @@ export const fetchCryptoData = (currency = "usd", perPage = 10, page = 1) => {
 export const fetchTrendingCryptos = async () => {
   try {
     const response = await API.get("/search/trending");
-    return response.data.coins || []; // Assurez-vous que 'coins' est un tableau
+    return response.data.coins || [];
   } catch (error) {
     console.error(
       "Erreur lors de la récupération des cryptos en tendance :",
       error
     );
-    return []; // Retourner un tableau vide en cas d'erreur
+    return [];
   }
 };
 
 export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
-  const API_KEY = process.env.NEWS_API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
   const API = axios.create({
     baseURL: "https://newsapi.org/v2",
@@ -50,6 +50,7 @@ export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
         sortBy: "publishedAt", // Trier par date de publication
       },
     });
+    console.log("API Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des actualités :", error);

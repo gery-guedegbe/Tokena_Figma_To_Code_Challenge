@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layouts from "./components/Layouts";
 import DashboardSection from "./sections/DashboardSection";
 import NewsSection from "./sections/NewsSection";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/news" element={<NewsSection />} />
         </Route>
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }

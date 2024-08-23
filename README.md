@@ -20,5 +20,5 @@ Tokena est un tableau de bord interactif dédié à l'analyse des crypto-monnaie
 
 1. Clonez le dépôt :
    ```bash
-   git clone https://github.com/username/tokena.git
+   https://github.com/gery-guedegbe/Tokena_Figma_To_Code_Challenge.git
    ```

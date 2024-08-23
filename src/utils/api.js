@@ -38,22 +38,29 @@ export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
 
   const API = axios.create({
     baseURL: "https://newsapi.org/v2",
+    headers: {
+      "Upgrade-Insecure-Requests": "1",
+      Accept: "application/json",
+    },
   });
 
   try {
     const response = await API.get("/everything", {
       params: {
-        q: "cryptocurrency OR crypto OR bitcoin OR ethereum", // Termes de recherche
-        pageSize: pageSize, // Nombre d'articles par page
-        page: page, // Numéro de la page
-        apiKey: API_KEY, // Clé API
-        sortBy: "publishedAt", // Trier par date de publication
+        q: "cryptocurrency OR crypto OR bitcoin OR ethereum",
+        pageSize: pageSize,
+        page: page,
+        apiKey: API_KEY,
+        sortBy: "publishedAt",
       },
     });
     console.log("API Response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Erreur lors de la récupération des actualités :", error);
+    console.error(
+      "Erreur lors de la récupération des actualités :",
+      error.response ? error.response.data : error.message
+    );
     return { articles: [] };
   }
 };

@@ -39,6 +39,7 @@ const newsAPI = axios.create({
 
 export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
   const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+  console.log("API Key:", import.meta.env.VITE_NEWS_API_KEY);
 
   try {
     const response = await newsAPI.get("/everything", {

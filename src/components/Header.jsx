@@ -16,10 +16,10 @@ const Header = () => {
             <Menu className="w-5 h-5 " />
           </button>
           <div className="flex flex-col items-start justify-center gap-0 text-left">
-            <h2 className="text-tokena-dark text-sm lg:text-base font-semibold dark:text-tokena-light-gray dark:font-semibold">
+            <h2 className="text-tokena-dark text-sm lg:text-base font-semibold dark:text-tokena-light-gray ">
               Dashboard
             </h2>
-            <p className="text-tokena-dark-gray text-xs lg:text-sm font-medium dark:text-sm dark:text-tokena-gray dark:font-normal">
+            <p className="text-tokena-dark-gray text-xs lg:text-sm font-medium dark:text-tokena-gray ">
               Welcome back, Jonh Doe !
             </p>
           </div>

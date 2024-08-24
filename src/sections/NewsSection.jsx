@@ -1,42 +1,37 @@
 import { useEffect, useState } from "react";
-import { fetchCryptoNews } from "../utils/api";
-import { ArrowDown, Heart, MessageSquareText } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import newsData from "../news";
 import logoCoinMaket from "../assets/images/coin-market-logo.png";
+import { ArrowDown, Heart, MessageSquareText } from "lucide-react";
 
 const NewsSections = () => {
   const [news, setNews] = useState([]);
-  const [page, setPage] = useState(1);
+  const [visibleArticles, setVisibleArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1); // Page courante
+  const articlesPerPage = 8; // Nombre d'articles par page
 
   useEffect(() => {
-    const loadNews = async () => {
-      setLoading(true);
-      const data = await fetchCryptoNews(page);
-      console.log("Fetched News:", data);
+    setLoading(true);
+    const articles = newsData.articles;
+    const sortedArticles = articles.sort((a, b) => {
+      return new Date(b.publishedAt) - new Date(a.publishedAt);
+    });
+    setNews(sortedArticles);
+    setVisibleArticles(sortedArticles.slice(0, articlesPerPage)); // Afficher les premiers articles
+    setLoading(false);
+  }, []);
 
-      // Filtrer les articles qui ont une image
-      const filteredArticles = data.articles.filter(
-        (article) => article.urlToImage
-      );
+  useEffect(() => {
+    const endIndex = page * articlesPerPage;
+    setVisibleArticles(news.slice(0, endIndex));
+  }, [page, news]);
 
-      // Trier les articles par date de publication, du plus récent au plus ancien
-      const sortedArticles = filteredArticles.sort((a, b) => {
-        return new Date(b.publishedAt) - new Date(a.publishedAt);
-      });
-
-      setNews((prevNews) => [...prevNews, ...sortedArticles]);
-      setLoading(false);
-    };
-    loadNews();
-  }, [page]);
-
-  const loadMore = () => {
-    setPage(page + 1);
+  const handleViewMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
-  // Configurer dayjs avec le plugin relativeTime
   dayjs.extend(relativeTime);
 
   return (
@@ -46,25 +41,22 @@ const NewsSections = () => {
           Latest crypto news
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {news.map((article) => (
+          {visibleArticles.map((article) => (
             <div
               key={article.url}
-              className="space-y-2 px-3 py-2 border border-tokena-gray bg-white dark:bg-tokena-dark-blue-2 dark:border-tokena-dark-blue-2 rounded-lg shadow-lg overflow-hidden transform transition-transform
-                   hover:scale-95"
+              className="space-y-2 px-3 py-2 flex flex-col items-center justify-between border border-tokena-gray bg-white dark:bg-tokena-dark-blue-2 dark:border-tokena-dark-blue-2 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-95"
             >
-              {" "}
-              <div className="flex items-center justify-start gap-2">
+              <div className="w-full flex items-center justify-start text-left gap-2">
                 <img
                   src={logoCoinMaket}
                   alt="Coin Market Logo"
                   className="w-8 h-8"
                 />
-
                 <div className="flex flex-col items-start justify-center">
                   <span className="text-sm text-tokena-dark dark:text-white font-semibold">
-                    CoinMarketCap
+                    {article.source.name}
                   </span>
-                  <span className="font-medium text-tokena-dark-gray text-[12px] dark:text-tokena-gray ">
+                  <span className="font-medium text-tokena-dark-gray text-[12px] dark:text-tokena-gray">
                     News - {dayjs(article.publishedAt).fromNow()}
                   </span>
                 </div>
@@ -73,7 +65,7 @@ const NewsSections = () => {
                 <img
                   src={article.urlToImage}
                   alt={article.title}
-                  className="w-full h-40 object-cover rounded-lg "
+                  className="w-full h-40 object-cover rounded-lg"
                 />
               )}
               <div className="space-y-2">
@@ -106,11 +98,10 @@ const NewsSections = () => {
             </div>
           ))}
         </div>
-        {loading ? (
-          <p className="mt-4">Chargement...</p>
-        ) : (
+        {loading && <p className="mt-4">Chargement...</p>}
+        {!loading && (
           <button
-            onClick={loadMore}
+            onClick={handleViewMore}
             className="px-4 py-3 mt-6 flex items-center justify-center gap-2 text-sm text-black font-medium bg-gray-200 border border-gray-300 rounded-full shadow-sm hover:bg-gray-300 transition-transform transform active:scale-95"
           >
             Load More

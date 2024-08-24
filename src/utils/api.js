@@ -33,24 +33,23 @@ export const fetchTrendingCryptos = async () => {
   }
 };
 
-export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
-  const API_KEY = "2c7eaa6b102748399669ec670415f257";
+const newsAPI = axios.create({
+  baseURL: "https://newsapi.org/v2",
+});
 
-  const API = axios.create({
-    baseURL: "https://newsapi.org/v2",
-  });
+export const fetchCryptoNews = async (page = 1, pageSize = 10) => {
+  const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 
   try {
-    const response = await API.get("/everything", {
+    const response = await newsAPI.get("/everything", {
       params: {
-        q: "cryptocurrency OR crypto OR bitcoin OR ethereum", // Termes de recherche
-        pageSize: pageSize, // Nombre d'articles par page
-        page: page, // Numéro de la page
-        apiKey: API_KEY, // Clé API
-        sortBy: "publishedAt", // Trier par date de publication
+        q: "cryptocurrency OR crypto OR bitcoin OR ethereum",
+        pageSize: pageSize,
+        page: page,
+        apiKey: API_KEY,
+        sortBy: "publishedAt",
       },
     });
-    console.log("API Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des actualités :", error);
